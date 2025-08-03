@@ -261,7 +261,10 @@ export default function TextEditor({ content, suggestion, onChange, onLastCharac
   useEffect(()=>{
     document.getElementById('suggestionText')?.remove()
     if(ghostContainerContentRef.current) {
-      const contentLastChar = ghostContainerContentRef.current.lastChild.innerHTML.slice(-1)
+      let contentLastChar = ghostContainerContentRef.current.innerHTML.slice(-1)
+      if(ghostContainerContentRef.current.children.length > 0) {
+        contentLastChar = ghostContainerContentRef.current.lastChild.innerHTML.slice(-1)
+      }
       const isSpace = contentLastChar===' '
       const isNewLine = contentLastChar===''
       const suggestionElement = `<span id="suggestionText" style="opacity: 0.6;">${(!isSpace && !isNewLine) ? ' ' : ''}${suggestion}</span>`

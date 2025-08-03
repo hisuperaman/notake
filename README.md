@@ -1,87 +1,55 @@
-# Welcome to React Router!
+# Notake
 
-A modern, production-ready template for building full-stack React applications using React Router.
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/remix-run/react-router-templates/tree/main/default)
-
-## Features
-
-- 🚀 Server-side rendering
-- ⚡️ Hot Module Replacement (HMR)
-- 📦 Asset bundling and optimization
-- 🔄 Data loading and mutations
-- 🔒 TypeScript by default
-- 🎉 TailwindCSS for styling
-- 📖 [React Router docs](https://reactrouter.com/)
-
-## Getting Started
-
-### Installation
-
-Install the dependencies:
-
-```bash
-npm install
-```
-
-### Development
-
-Start the development server with HMR:
-
-```bash
-npm run dev
-```
-
-Your application will be available at `http://localhost:5173`.
-
-## Building for Production
-
-Create a production build:
-
-```bash
-npm run build
-```
-
-## Deployment
-
-### Docker Deployment
-
-To build and run using Docker:
-
-```bash
-docker build -t my-app .
-
-# Run the container
-docker run -p 3000:3000 my-app
-```
-
-The containerized application can be deployed to any platform that supports Docker, including:
-
-- AWS ECS
-- Google Cloud Run
-- Azure Container Apps
-- Digital Ocean App Platform
-- Fly.io
-- Railway
-
-### DIY Deployment
-
-If you're familiar with deploying Node applications, the built-in app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-```
-├── package.json
-├── package-lock.json (or pnpm-lock.yaml, or bun.lockb)
-├── build/
-│   ├── client/    # Static assets
-│   └── server/    # Server-side code
-```
-
-## Styling
-
-This template comes with [Tailwind CSS](https://tailwindcss.com/) already configured for a simple default starting experience. You can use whatever CSS framework you prefer.
+**Notake** is a modern note-taking web app built with **React Router Framework Mode** (formerly Remix JS) in **TypeScript**. It features AI-powered autocompletion using **Ollama Llama3.2**, integrated seamlessly within a rich text editor powered by **tiptap**.
 
 ---
 
-Built with ❤️ using React Router.
+## Features
+
+- **User Authentication**  
+  Signup and login system for secure access to your notes.
+
+- **Organized Note Management**  
+  - Sidebar with recent notes and folders  
+  - Create, edit, and delete folders to organize notes  
+  - Store notes inside folders for better organization
+
+- **Rich Note Editor**  
+  - Create new notes with title, date, and folder assignment  
+  - Text editor built with tiptap supporting rich formatting  
+  - AI autocompletion powered by Ollama Llama3.2 to suggest next 4-5 words based on user input  
+
+- **AI Autocompletion Prompt**  
+  ```ts
+  const SYSTEM_PROMPT = `User will give you a text, you have to predict next 4-5 words (like autocomplete)
+  Output of your response should be a suggestion string containing 4-5 words as a sentence
+  Responses should be based on the context of user prompt, don't give random suggestions analyze the prompt and 
+  then give response based on that
+  
+  If user prompt is random text and you don't have any predictions just output empty string.
+  Give the response as a string.
+  Example:
+  user: I am
+  assistant: a good student and`
+- **Intuitive UI & Navigation** 
+  - Left sidebar navigation with NavLinks
+  - NavLinks show states: active, pending with pulse animation to indicate background loading
+  - Smooth user experience with clear visual feedback on interactions
+
+## Tech Stack
+  - React Router Framework Mode (Remix JS) with TypeScript
+  - tiptap rich text editor
+  - Ollama Llama3.2 for AI autocompletion
+  - MongoDB as the database
+
+## Getting Started
+  1. Clone the repo
+  2. Install dependencies with npm install or yarn
+  3. Setup Ollama Llama3.2 API and environment variables (example in .env-example file)
+  4. Configure MongoDB and Ollama connection in environment variables
+  4. Run the development server with npm run dev or yarn dev
+
+## License
+- MIT License
+
+#### Built with ❤️ using modern React Router Framework Mode and AI technologies.

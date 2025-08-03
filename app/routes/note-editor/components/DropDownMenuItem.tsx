@@ -1,4 +1,6 @@
-export default function DropDownMenuItem({ label, icon, isActive, onClick }) {
+import type { DropDownMenuItemType } from "types";
+
+export default function DropDownMenuItem({ label, icon, isActive=false, onClick }: DropDownMenuItemType) {
     return (
         <div
             onClick={onClick}

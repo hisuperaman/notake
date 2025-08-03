@@ -2,10 +2,6 @@ import ollama from 'ollama'
 
 async function getSuggestion(userPrompt) {
     
-
-    
-    })
-    
     return response.message.content
 }
 

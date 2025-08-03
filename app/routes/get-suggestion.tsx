@@ -5,7 +5,8 @@ import ollama from 'ollama'
 
 const SYSTEM_PROMPT = `User will give you a text, you have to predict next 4-5 words (like autocomplete)
     Output of your response should be a suggestion string containing 4-5 words as a sentence
-    Responses should be based on the context of user prompt, don't give random suggestions analyze the prompt and then give response based on that
+    Responses should be based on the context of user prompt, don't give random suggestions analyze the prompt and 
+    then give response based on that
     
     If user prompt is random text and you don't have any predictions just output empty string.
     Give the response as a string.

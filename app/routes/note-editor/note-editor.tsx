@@ -1,5 +1,4 @@
 import { APP_TITLE } from "~/config";
-import type { Route } from "../+types/note-editor";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft, faCalendar, faCalendarAlt, faEllipsisH, faEllipsisV, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faBackspace } from "@fortawesome/free-solid-svg-icons/faBackspace";
@@ -19,6 +18,8 @@ import Note from "~/models/note.model";
 import { toast } from "react-toastify";
 import NoteEditorSkeleton from "~/skeletons/note-editor-skeleton";
 import { useDebouncedCallback } from "use-debounce"
+import type { FolderSelectionDropdownType, HeaderItemType } from "types";
+import type { Route } from "./+types/note-editor";
 
 export function meta({ }: Route.MetaArgs) {
     return [
@@ -45,7 +46,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
 
     await dbConnect()
 
-    const note = await Note.findById(params.noteId).populate('folder').lean()
+    const note: any = await Note.findById(params.noteId).populate('folder').lean()
 
 
     if (note) {
@@ -56,7 +57,7 @@ export async function loader({ params, request }: Route.LoaderArgs) {
     return { note }
 }
 
-function HeaderItem({ label, icon, children }: Route.ComponentProps) {
+function HeaderItem({ label, icon, children }: HeaderItemType) {
     return (
         <div className="text-xs flex border-b border-separator py-4 gap-16">
             <div className="flex gap-4 items-center text-onSurface dark:text-onSurface w-16">
@@ -70,11 +71,11 @@ function HeaderItem({ label, icon, children }: Route.ComponentProps) {
     )
 }
 
-function FolderSelectionDropdown({ folder, onClick }) {
+function FolderSelectionDropdown({ folder, onClick }: FolderSelectionDropdownType) {
     const { isOpen, setIsOpen, dropdownRef, buttonRef } = useDropdownAnimation()
     const { folders } = useRouteLoaderData('layouts/sidebar/sidebar-layout')
 
-    function handleFolderClick(f) {
+    function handleFolderClick(f: any) {
         onClick(f)
         setIsOpen(false)
     }
@@ -88,7 +89,7 @@ function FolderSelectionDropdown({ folder, onClick }) {
             <div className="absolute w-48 origin-top-left z-9 max-h-48 overflow-auto hidden scale-0" ref={dropdownRef}>
                 <DropDownMenu >
                     {
-                        folders.map((f, index) => {
+                        folders.map((f: any, index: Number) => {
                             return (
                                 <DropDownMenuItem key={f.id} onClick={() => handleFolderClick(f)} isActive={folder.id == f.id} icon={<FontAwesomeIcon icon={faFolder} />} label={f.name} />
                             )
@@ -126,7 +127,7 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
         // }
     }, [params.noteId])
 
-    function handleDateClick(e) {
+    function handleDateClick(e: any) {
         e.preventDefault()
         e.target.showPicker()
     }
@@ -134,7 +135,7 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
     const fetcher = useFetcher()
     const busy = fetcher?.state !== 'idle'
 
-    const suggestionController = useRef(null)
+    const suggestionController = useRef<AbortController | null>(null)
 
     const [suggestion, setSuggestion] = useState('')
 
@@ -152,7 +153,7 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
     }, [note.id]);
 
 
-    function handleSaveClick(e) {
+    function handleSaveClick() {
         if (formRef.current) {
             const formData = new FormData(formRef.current)
 
@@ -176,7 +177,7 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
         }
     }
 
-    function handleDeleteClick(e) {
+    function handleDeleteClick() {
         const formData = new FormData()
 
         formData.set('noteId', params.noteId)
@@ -210,7 +211,7 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
             const data = await response.json()
             setSuggestion(data.suggestion)
         }
-        catch(e) {
+        catch(e: any) {
             if(e.name==='AbortError') {
                 console.log('aborted')
             }
@@ -298,10 +299,10 @@ export default function NoteEditor({ loaderData, params }: Route.ComponentProps)
                 onSuggestionAccept={()=>setSuggestion('')}
                 suggestion={suggestion}
                 content={note.content}
-                onChange={(content) => {
+                onChange={(content: string) => {
                     setNoteContent(content)
                 }}
-                onLastCharacterChange={(lastChar) => {
+                onLastCharacterChange={(lastChar: string) => {
                     // if (lastChar === ' ') {
                         handleGetSuggestion(lastChar)
                     // }

@@ -12,7 +12,6 @@ import Folder from "~/models/folder.model";
 
 export async function action({ request }: Route.ActionArgs) {
     const formData = await request.formData()
-
     await dbConnect()
 
     const { full_name, email, password } = Object.fromEntries(formData)
@@ -27,7 +26,6 @@ export async function action({ request }: Route.ActionArgs) {
         return data({ ok: false, message: 'Password is required' }, { status: 400 })
     }
 
-
     try {
         const hashedPassword = await bcrypt.hash(password, 10)
         const user = new User({
@@ -38,7 +36,7 @@ export async function action({ request }: Route.ActionArgs) {
         await user.save()
         
         const folder = new Folder({
-            userId: user._id,
+            user: user._id,
             name: 'Personal'
         })
         await folder.save()
